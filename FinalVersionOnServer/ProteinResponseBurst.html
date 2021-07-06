@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Protein dynamics in response to a translational burst at x0</title>
+
+</head>
+
+<body>
+
+<style>
+
+
+
+    #definitions {
+
+
+
+    }
+
+
+
+    #equation {
+
+        display: none;
+
+    }
+
+
+
+    .whitespace {
+
+        color: #ffffff;
+
+    }
+
+
+
+    .sub {
+
+        position: relative;
+
+        bottom: -1ex;
+
+        font-size: 70%;
+
+    }
+
+
+
+</style>
+
+<h1>Protein response to a translational burst</h1>
+
+<p><div id="definitions">
+
+<h3>Parameter definitions:</h3>
+
+<table>
+
+<td><label for="DP">Protein Diffusion Coefficient in &mu;<sup>2</sup>/s<em><b> D<span class="sub">P</span></b></em></label></td>
+
+<td><input id="text_DP" name="text_DP" value="0.243798" onchange='document.getElementById("DP").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="10" min="0.0001" step="0.01" id="DP" name="DP" value="0.243798" onchange='document.getElementById("text_DP").value=this.value;drawContour();'></td>
+
+
+
+<tr>
+
+<td><label for="uP">Protein Velocity in &mu;m/s <em><b>&mu;<span class="sub">P</span></b></em></label></td>
+
+<td><input id="text_uP" name="text_uP" value="0" onchange='document.getElementById("uP").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="5" min="0.001" step="0.01" id="uP" name="uP" value="0" onchange='document.getElementById("text_uP").value=this.value;drawContour();'></td>
+
+</tr>
+
+<tr>
+
+<td><label for="LifTP">Protein Half Life in days <em><b>T<span class="sub">1/2</span></b></em> </label></td>
+
+<td><input id="text_LifTP" name="text_LifTP" value="6.6" onchange='document.getElementById("LifTP").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="20" min="0" step="0.5" id="LifTP" name="LifTP" value="6.6" onchange='document.getElementById("text_LifTP").value=this.value;drawContour();'></td>
+
+</tr>
+
+<tr>
+
+<td><label for="Dur">Duration of the burst in mins <em><b>T<span class="sub">b</span></b></em> </label></td>
+
+<td><input id="text_Dur" name="text_Dur" value="10" onchange='document.getElementById("Dur").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="120" min="0" step="0.5" id="Dur" name="Dur" value="10" onchange='document.getElementById("Dur").value=this.value;drawContour();'></td>
+
+
+<tr>
+
+<td><label for="tmax">Plot settings: maximal time displayed after burst initiation (in mins) </label></td>
+
+<td><input id="text_tmax" name="text_tmax" value="100" onchange='document.getElementById("tmax").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="10000" min="0" step="0.5" id="tmax" name="tmax" value="100" onchange='document.getElementById("tmax").value=this.value;drawContour();'></td>
+
+
+<tr>
+
+<td><label for="xrange">Plot settings: maximal distance displayed around the burst location </label></td>
+
+<td><input id="text_xrange" name="text_xrange" value="50" onchange='document.getElementById("xrange").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="1000" min="0" step="1" id="xrange" name="xrange" value="50" onchange='document.getElementById("xrange").value=this.value;drawContour();'></td>
+
+
+<tr>
+
+<td><label for="x0">Location of the burst (dendritic distance from soma) </label></td>
+
+<td><input id="text_x0" name="text_xrange" value="300" onchange='document.getElementById("x0").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="1000" min="0" step="1" id="x0" name="x0" value="300" onchange='document.getElementById("xrange").value=this.value;drawContour();'></td>
+
+</table>
+
+
+
+</div>
+
+    <div id="equation"><img src="equation.png"></div>
+
+    <div id="contour_plot">Loading...</div>
+
+<script>
+
+
+    drawContour();
+
+
+
+    function drawContour()
+
+    {
+
+        var DP=getVariable('DP');
+
+        var uP=getVariable('uP');
+
+        var LifTP=getVariable('LifTP');
+
+        var Dur=getVariable('Dur');
+        
+        var xrange=getVariable('xrange');
+        var tmax=getVariable('tmax');
+        var x0=getVariable('x0');
+
+        document.getElementById("contour_plot").innerHTML='<img src="plot3.php?uP='+uP+"&DP="+DP+"&Dur="+Dur+"&tmax="+tmax+"&xrange="+xrange+"&x0="+x0+"&LifTP="+LifTP+'">';
+
+    }
+
+
+
+    function getVariable(id)
+
+    {
+
+        return parseFloat(document.getElementById(id).value);
+
+    }
+
+
+
+    function debug(msg)
+
+    {
+
+        document.writeln(msg + '<br/>');
+
+    }
+
+
+
+
+</script>
+
+</body>
+
+</html>
+

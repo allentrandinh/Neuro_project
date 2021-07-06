@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Protein dynamics</title>
+</head>
+<body>
+<style>
+
+    #definitions {
+
+    }
+
+    #equation {
+        display: none;
+    }
+
+    .whitespace {
+        color: #ffffff;
+    }
+
+    .sub {
+        position: relative;
+        bottom: -1ex;
+        font-size: 70%;
+    }
+
+</style>
+<h1>Protein dynamics</h1>
+<p><div id="definitions">
+<h3>Parameter definitions:</h3>
+<table>
+<tr>
+<td><label for="uR">mRNA Velocity in &mu;m/s <em><b>&mu;<span class="sub">R</span></b></em></label></td>
+<td><input id="text_uR" name="text_uR" value="0.00046050" onchange='document.getElementById("uR").value=this.value;drawContour();'></td>
+<td><input type="range" max="1" min="0" step="0.00001" id="uR" name="uR" value="0.00046050" onchange='document.getElementById("text_uR").value=this.value;drawContour();'></td>
+</tr>
+<tr>
+<td><label for="DR">Diffusion constant in &mu;m<sup>2</sup>/s<em><b> D<span class="sub">R</span></b></em></label></td>
+<td><input id="text_DR" name="text_DR" value="0.035450" onchange='document.getElementById("DR").value=this.value;drawContour();'></td>
+<td><input type="range" max="10" min="0" step="0.0001" id="DR" name="DR" value="0.035450" onchange='document.getElementById("text_DR").value=this.value;drawContour();'></td>
+</tr>
+<tr>
+<td><label for="LifTR">Half-life of mRNA in h <em><b>T<span class="sub">1/2</span></b></em> </label></td>
+<td><input id="text_LifTR" name="text_LifTR" value="16" onchange='document.getElementById("LifTR").value=this.value;drawContour();'></td>
+<td><input type="range" max="24" min="0" step="0.5" id="LifTR" name="LifTR" value="16" onchange='document.getElementById("text_LifTR").value=this.value;drawContour();'></td>
+</tr>
+
+<tr>
+<td style="height: 30px"><label for="SomDentr">Fraction of dendritic mRNAs <em><b>S<span class="sub">sd</span></b></em> </label></td>
+<td style="height: 30px"><input id="text_SomDentr" name="text_SomDentr" value="0.43" onchange='document.getElementById("SomDentr").value=this.value;drawContour();'></td>
+<td style="height: 30px"><input type="range" max="1" min="0" step="0.01" id="SomDentr" name="SomDentr" value="0.43" onchange='document.getElementById("text_SomDentr").value=this.value;drawContour();'></td>
+</tr>
+
+<tr>
+<td><label for="DP">Protein Diffusion Coefficient in &mu;m<sup>2</sup>/s<em><b> D<span class="sub">R</span></b></em></label></td>
+<td><input id="text_DP" name="text_DP" value="0.243798" onchange='document.getElementById("DP").value=this.value;drawContour();'></td>
+<td><input type="range" max="10" min="0" step="0.01" id="DP" name="DP" value="0.243798" onchange='document.getElementById("text_DP").value=this.value;drawContour();'></td>
+</tr>
+<tr>
+<td><label for="uP">Protein Velocity in &mu;m/s <em><b>&mu;<span class="sub">R</span></b></em></label></td>
+<td><input id="text_uP" name="text_uP" value="0.0" onchange='document.getElementById("uP").value=this.value;drawContour();'></td>
+<td><input type="range" max="5" min="0" step="0.01" id="uP" name="uP" value="0.0" onchange='document.getElementById("text_uP").value=this.value;drawContour();'></td>
+</tr>
+<tr>
+<td><label for="LifTP">Protein Half Life in days <em><b>T<span class="sub">1/2</span></b></em> </label></td>
+<td><input id="text_LifTP" name="text_LifTP" value="6.6" onchange='document.getElementById("LifTP").value=this.value;drawContour();'></td>
+<td><input type="range" max="20" min="0" step="0.5" id="LifTP" name="LifTP" value="6.6" onchange='document.getElementById("text_LifTP").value=this.value;drawContour();'></td>
+</tr>
+
+<tr>
+
+<td><label for="tmax">Plot settings: Time range displayed (in days) </label></td>
+
+<td><input id="text_tmax" name="text_tmax" value="20" onchange='document.getElementById("tmax").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="10000" min="0" step="0.5" id="tmax" name="tmax" value="20" onchange='document.getElementById("tmax").value=this.value;drawContour();'></td>
+
+
+<tr>
+
+<td><label for="xrange">Plot settings: Distance range displayed (in &mu;m) </label></td>
+
+<td><input id="text_xrange" name="text_xrange" value="300" onchange='document.getElementById("xrange").value=this.value;drawContour();'></td>
+
+<td><input type="range" max="1000" min="0" step="1" id="xrange" name="xrange" value="300" onchange='document.getElementById("xrange").value=this.value;drawContour();'></td>
+
+
+</table>
+
+</div>
+    <div id="equation"><img src="equation.png"></div>
+    <div id="contour_plot"></div>
+<script>
+
+    drawContour();
+
+    function drawContour()
+    {
+        var uR=getVariable('uR');
+        var DR=getVariable('DR');
+        var LifTR=getVariable('LifTR');
+        var DP=getVariable('DP');
+        var uP=getVariable('uP');
+        var LifTP=getVariable('LifTP');
+        var xrange=getVariable('xrange');
+        var tmax=getVariable('tmax');
+        var SomDentr=getVariable('SomDentr');
+
+        document.getElementById("contour_plot").innerHTML='<img src="plot2.php?uR='+uR+"&DR="+DR+"&LifTR="+LifTR+"&SomDentr="+SomDentr+"&DP="+DP+"&uP="+uP+"&LifTP="+LifTP+"&xrange="+xrange+"&tmax="+tmax+'">';
+    }
+
+    function getVariable(id)
+    {
+        return parseFloat(document.getElementById(id).value);
+    }
+
+    function debug(msg)
+    {
+        document.writeln(msg + '<br/>');
+    }
+
+    
+</script>
+</body>
+</html>
