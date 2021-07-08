@@ -180,6 +180,22 @@ def superposition(burst_history,t_of_interest,x_of_interest,sigma=0.50,a1=1,a2=1
                 total += translational_burst(x_of_interest,burst_position,t_of_interest,burst_time,sigma,a1,a2,b1,b2,dP,kP,vP)
     return total
 
+def modified_superposition(burst_history,t_of_interest,x_of_interest,threshold = 10**(-4),sigma=0.50,a1=1,a2=1/300,b1=0.1,b2=1/300,dP=0.243798,kP=math.log(2,math.e)/(6.6*24*60*60),vP=0):
+    #find the total protein concentration at location x_of_interest, time t_of_interest by summing up all component bursts
+    total = 0
+    # sum up all burst in a given time
+    for burst_time in burst_history.keys():
+        #only sum bursts events that happen strictly before time of interest
+        if int(burst_time) < t_of_interest:
+            #sum up bursts in all positions
+            for burst_position in burst_history[burst_time]:
+                addition = translational_burst(x_of_interest,int(burst_position),t_of_interest,int(burst_time),sigma,a1,a2,b1,b2,dP,kP,vP)
+                if addition > threshold:
+                    total += addition
+        else:
+            break
+    return total
+
 def poisson_interval_history_generator(burst_rate,total_length,hours_total,path):
     '''
     :param burst_rate:

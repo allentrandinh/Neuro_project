@@ -8,7 +8,7 @@ from matplotlib.pyplot import *
 from numpy import double, array, linspace, vectorize, meshgrid
 
 # In[1]
-
+'''
 #protein velocity [0,5]
 uP = float(sys.argv[2])
 
@@ -20,9 +20,14 @@ xrange = float(sys.argv[4])
 
 Dur = float(sys.argv[5])
 
-x0 = float(sys.argv[6])
+x0 = float(sys.argv[6])'''
 
-LifTP = float(sys.argv[7])*24*60*60
+uP = 0
+DP = 0.243798
+Dur = 10
+x0=0
+
+LifTP = 6.6*24*60*60
 
 mp.dps = 20
 sigma=0.50;
@@ -78,6 +83,7 @@ def P(t,x):
         h=sqrt(sigma)*exp(sigma*muP**2/2+muP*(x-x0)+sigma*kP/(4*DP))*1./16*DP**(-2)*(a1*exp(-a2*(sigma/(4*DP)+t-t0))*(Iminus12(sigma,sigma+4*DP*(t-t0),A1,(sigma*muP+2*(x-x0))**2/4)*(4*DP*(t-t0)+sigma)-Iplus12(sigma,sigma+4*DP*(t-t0),A1,(sigma*muP+2*(x-x0))**2/4))+b1*exp(-b2*sigma/(4*DP)-b2*(t-t0))*(-Iminus12(sigma,sigma+4*DP*(t-t0),A2,(sigma*muP+2*(x-x0))**2/4)*(4*DP*(t-t0)+sigma)+Iplus12(sigma,sigma+4*DP*(t-t0),A2,(sigma*muP+2*(x-x0))**2/4)));
     return float(h.real)
 
+'''
 #t = double(linspace(0, max(1/a2,1/a1)*10, 20));
 t = double(linspace(0, tmax, 20));
 #x = double(linspace(max(x0-sigma*100,0), x0+sigma*100, 20));
@@ -99,6 +105,6 @@ cbar = colorbar(cp)
 #clabel(cp, inline=True, fontsize=8)
 xlabel('distance from soma (μm)')
 ylabel('time [minutes]')
-savefig(sys.stdout.buffer)
+savefig(sys.stdout.buffer)'''
 
-
+print(P(100*24*3600,0))

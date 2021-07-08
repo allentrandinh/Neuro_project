@@ -57,6 +57,13 @@ Function_testings:
 - graph.py draws the contour plot using data generated earlier
 - result/0.05Hz_proteinprofile.png: protein profile at 0.05Hz at described setting. It does look like the protein reached a plateau
 - result/0.05Hz_proteinprofile_zoomin.png: zoom in plot of top image
+Note:
+
+07-
+- threshold.py writes down the protein contribution of burst at x=0,t=0 to 3 different location in 10hrs time frame -> cut off point arbitrarily to be 10**-4 ((t=787, x=100))
+- Note: With arbitrary threshold, calculation cannot speed up since each calculation still needs to be done before comparing to the threshold -> generating the protein contribution at all position and find where it cross the threshold
+-
+
 
 
 Other files:
